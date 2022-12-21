@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import Loader from '../Loader/Loader';
 import ProductService from './../../services/productService';
 import CategoryService from './../../services/categoryService';
@@ -33,13 +34,93 @@ function ProductList() {
                 errorMessage: error.message
             })
         }
-    }, [])
+    }, []);
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let searchValue = e.target[0].value;
+        try {
+            setState({ ...state, loading: true });
+            async function getData() {
+                let resProducts = await ProductService.searchProducts(searchValue);
+                let resCategories = await CategoryService.getCategories();
+                setState({
+                    ...state,
+                    loading: false,
+                    products: resProducts.data,
+                    categories: resCategories.data
+                })
+            }
+            getData();
+        } catch (error) {
+            setState({
+                ...state,
+                errorMessage: error.message
+            })
+        }
+    }
+
+    const handleInputChange = (e) => {
+        if (e.target.value === '') {
+            try {
+                setState({ ...state, loading: true });
+                async function getData() {
+                    let resProducts = await ProductService.getProducts();
+                    let resCategories = await CategoryService.getCategories();
+                    setState({
+                        ...state,
+                        loading: false,
+                        products: resProducts.data,
+                        categories: resCategories.data
+                    })
+                }
+                getData();
+            } catch (error) {
+                setState({
+                    ...state,
+                    errorMessage: error.message
+                })
+            }
+        }
+    }
 
     const { loading, products, categories } = state;
     return (
         <>
             <section className='product-info'>
+                <div className='container'>
+                    <div className='row mt-2'>
+                        <h2>DANH SÁCH SẢN PHẨM</h2>
+                    </div>
+                    <div className='row'>
+                        <div className='col-md-8'>
+                            <Link to={"/products/create"}
+                                className='btn btn-success'>
+                                <i className="fa-solid fa-plus"></i>
+                                <span className='ms-2'>Thêm mới</span>
+                            </Link>
+                        </div>
+                        <div className='col-md-4'>
+                            <form onSubmit={handleSubmit}
+                                className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex"
+                            >
+                                <input type="search"
+                                    className="form-control form-control-dark rounded-0 rounded-start"
+                                    placeholder="Bạn muốn tìm gì..."
+                                    aria-label="Search"
+                                    onChange={handleInputChange}
+                                    on=""
+                                />
+                                <button type="submit" className="btn btn-primary rounded-0 rounded-end">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <section className='product-list'>
                 <div className='container'>
                     <div className='row justify-content-center'>
                         {
@@ -66,7 +147,8 @@ function ProductList() {
                                                 <h3>Size :</h3>
                                                 {
                                                     product.size.map((item) => (
-                                                        <span>{item}</span>
+                                                        <span key={item}
+                                                        >{item}</span>
                                                     ))
                                                 }
                                             </div>
@@ -74,8 +156,8 @@ function ProductList() {
                                                 <h3>Color :</h3>
                                                 {
                                                     product.color.map((item) => (
-                                                        <span
-                                                            style={{backgroundColor: item}}
+                                                        <span key={item}
+                                                            style={{ backgroundColor: item }}
                                                         ></span>
                                                     ))
                                                 }
@@ -90,7 +172,6 @@ function ProductList() {
                                                 <i className="fa-solid fa-xmark"></i>
                                             </button>
                                         </div>
-
                                     </div>
                                 )
                                 )
