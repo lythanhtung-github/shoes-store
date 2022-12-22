@@ -5,6 +5,12 @@ class ProductService {
     static getProducts() {
         return axios.get(PRODUCT_API);
     }
+    static createProduct(product) {
+        return axios.post(PRODUCT_API, product);
+    }
+    static removeProduct(productId) {
+        return axios.delete(`${PRODUCT_API}/${productId}`);
+    }
     static searchProducts(value) {
         return axios.get(PRODUCT_API + '?search=' + value);
     }

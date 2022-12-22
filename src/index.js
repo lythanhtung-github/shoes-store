@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/sweetalert2/dist/sweetalert2.all.min.js';
 import './index.css';
 import App from './App';
 
