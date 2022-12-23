@@ -1,5 +1,5 @@
-const API_URL = 'https://63a2bfc1ba35b96522fd7cb7.mockapi.io/';
-const PRODUCT_API = API_URL + '/product';
-const CATEGORY_API = API_URL + '/category';
-
-export {PRODUCT_API, CATEGORY_API};
+export const API_URL = 'https://63a2bfc1ba35b96522fd7cb7.mockapi.io/';
+export const PRODUCT_API = API_URL + '/product';
+export const CATEGORY_API = API_URL + '/category';
+export const CLOUDINARY_UPLOAD_API_URL = "https://api.cloudinary.com/v1_1/dg4kw5uuy/image/upload";
+export const CLOUDINARY_DESTROY_API_URL = "https://api.cloudinary.com/v1_1/dg4kw5uuy/image/destroy";

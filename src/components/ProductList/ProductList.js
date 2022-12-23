@@ -44,21 +44,11 @@ function ProductList() {
 
     const handleSearch = async (e) => {
         e.preventDefault();
+        setCategoryId(e.target[0].value);
+        console.log(categoryId)
         setState({ ...state, loading: true });
         let resProducts = await ProductService.getProducts();
-        setState({
-            ...state,
-            loading: false,
-            products: keyword ? resProducts.data.filter((item) => item.name.toUpperCase().includes(keyword.toUpperCase()))
-                : resProducts.data
-        })
-    }
-
-    const handleCategoryChange = async (e) => {
-        setCategoryId(Number(e.target.value));
-        setState({ ...state, loading: true });
-        let resProducts = await ProductService.getProducts();
-        categoryId === 0 ?
+        categoryId == "0" ?
             setState({
                 ...state,
                 loading: false,
@@ -69,6 +59,31 @@ function ProductList() {
                 loading: false,
                 products: resProducts.data.filter((item) => item.category_id === categoryId && item.name.toUpperCase().includes(keyword.toUpperCase()))
             })
+    }
+
+    const handleCategoryChange = async (e) => {
+        // console.log(e.target)
+        setCategoryId(e.target.value);
+        // console.log(categoryId);
+        let categoryId = e.target.value;
+        setState({ ...state, loading: true });
+        let resProducts = await ProductService.getProducts();
+        categoryId == "0" ?
+            setState({
+                ...state,
+                loading: false,
+                products: resProducts.data.filter((item) => item.name.toUpperCase().includes(keyword.toUpperCase()))
+            }) :
+            setState({
+                ...state,
+                loading: false,
+                products: resProducts.data.filter((item) => item.category_id === categoryId && item.name.toUpperCase().includes(keyword.toUpperCase()))
+            })
+    }
+
+    const getCategoryName = (categoryId) => {
+        let category = categories.find((cat) => cat.id === categoryId);
+        return category ? category.name : '';
     }
 
     const handleDelete = (product) => {
@@ -125,9 +140,9 @@ function ProductList() {
                                             id='categoryId'
                                             name='categoryId'
                                             value={categoryId}
-                                            onChange={handleCategoryChange}
+                                            onInput={handleCategoryChange}
                                         >
-                                            <option value='0'>Tất cả</option>
+                                            <option value="0">Tất cả</option>
                                             {
                                                 categories.map((item) => (
                                                     <option
@@ -162,8 +177,8 @@ function ProductList() {
 
                     </div>
                 </div>
-
             </section>
+
             <section className='product-list'>
                 <div className='container'>
                     <div className='row justify-content-center'>
@@ -177,10 +192,15 @@ function ProductList() {
                                         <div className="contentBx">
                                             <h3>{product.name}</h3>
                                             <div className="description">
-                                                <p className="fst-italic text-white">{product.description}</p>
+                                                <p className="fst-italic text-white my-0">{product.description}</p>
+                                            </div>
+                                            {/* <p className='text-white my-0'>{getCategoryName(product.category_id)}</p> */}
+                                            <div className="category">
+                                                <h6 className='text-white   '>{getCategoryName(product.category_id)}
+                                                </h6>
                                             </div>
                                             <div className="price d-flex align-items-center">
-                                                <h3>Price :</h3>
+                                                <h3>Giá :</h3>
                                                 <h3 className="text-yellow">{
                                                     Helper.formatCurrency(product.price)
                                                 }

@@ -92,7 +92,6 @@ body {
 .container .card .contentBx h3 {
     position: relative;
     font-weight: 600;
-    letter-spacing: 1px;
     color: #fff;
 }
 
@@ -110,7 +109,7 @@ body {
 .container .card .contentBx .description {
     align-items: center;
     transition: .5s;
-    text-align: left;
+    text-align: center;
     margin: 5px;
     font-size: 12px;
 }
@@ -119,6 +118,14 @@ body {
     justify-content: center;
     align-items: center;
     transition: .5s;
+}
+
+.container .card .contentBx .category {
+    align-items: center;
+    transition: .5s;
+    text-align: center;
+    margin: 5px;
+    font-size: 12px;
 }
 
 .container .card:hover .contentBx .size {
