@@ -7,8 +7,7 @@ import ProductService from './../../services/productService';
 import CloudinaryHelper from './../utils/CloudinaryHelper';
 import Helper from './../utils/Helper';
 
-const sizes = [38, 39, 40, 41, 42, 43, 44, 45];
-const colors = ['red', 'green', 'yellow', 'blue', 'brown', 'white'];
+import { sizes, colors } from './../utils/Utils';
 
 var imageFile = null;
 var oldImageUrl = "";
@@ -189,7 +188,7 @@ function ProductEdit() {
                                         <div className='form-group mt-2 col-sm-6'>
                                             <label htmlFor='price' className="form-label">Giá bán:</label>
                                             <div className="col-sm-12">
-                                                <input type="number" className="form-control" min='100000' required
+                                                <input type="number" className="form-control" min='10000' required
                                                     id="price"
                                                     name='price'
                                                     value={price || 0}

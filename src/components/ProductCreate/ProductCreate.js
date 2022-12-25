@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 import CategoryService from './../../services/categoryService';
 import ProductService from './../../services/productService';
 import CloudinaryHelper from './../utils/CloudinaryHelper';
-
-const sizes = [38, 39, 40, 41, 42, 43, 44, 45];
-const colors = ['red', 'green', 'yellow', 'blue', 'brown', 'white'];
+import { sizes, colors } from './../utils/Utils';
 
 var imageFile = null;
 function ProductCreate() {
@@ -190,7 +188,7 @@ function ProductCreate() {
                                         <div className='form-group mt-2 col-sm-6'>
                                             <label htmlFor='price' className="form-label">Giá bán:</label>
                                             <div className="col-sm-12">
-                                                <input type="number" className="form-control" min='100000' required
+                                                <input type="number" className="form-control" min='10000' required
                                                     id="price"
                                                     name='price'
                                                     value={price || 0}
@@ -261,7 +259,7 @@ function ProductCreate() {
                                                                 <label className="form-check-label"
                                                                     style={
                                                                         item === 'white' ? { color: 'black' } :
-                                                                           { color: item }
+                                                                            { color: item }
                                                                     }
                                                                     htmlFor={item}>{item}</label>
                                                             </div>
