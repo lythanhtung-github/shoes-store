@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from '../Loader/Loader';
 import { toast } from "react-toastify";
 import CategoryService from './../../services/categoryService';
 import ProductService from './../../services/productService';
 import CloudinaryHelper from './../utils/CloudinaryHelper';
+import Helper from './../utils/Helper';
 
 const sizes = [38, 39, 40, 41, 42, 43, 44, 45];
 const colors = ['red', 'green', 'yellow', 'blue', 'brown', 'white'];
 
 var imageFile = null;
-function ProductCreate() {
+var oldImageUrl = "";
+function ProductEdit() {
+    const { productId } = useParams();
     const [state, setState] = useState({
         loading: true,
         product: {},
@@ -25,12 +28,17 @@ function ProductCreate() {
         try {
             setState({ ...state, loading: true });
             async function getData() {
+                let resProduct = await ProductService.getProductById(productId);
                 let resCategories = await CategoryService.getCategories();
                 setState({
                     ...state,
                     loading: false,
+                    product: resProduct.data,
                     categories: resCategories.data,
-                })
+                });
+                oldImageUrl = resProduct.data.image;
+                setSizeChecked(resProduct.data.size);
+                setColorChecked(resProduct.data.color);
             }
             getData();
         } catch (error) {
@@ -38,20 +46,16 @@ function ProductCreate() {
         }
     }, []);
 
-    // const handlePreviewImage = (e) => {
-    //     const file = e.target.files[0];
-    //     file.preview = URL.createObjectURL(file);
-    //     setImage(file);
-    //     // e.target.value = null;
-    // }
-
-    const handleCreateProduct = async (e) => {
+    const handleEditProduct = async (e) => {
         e.preventDefault();
         try {
+            console.log(sizeChecked);
             if (sizeChecked.length === 0) {
+                
                 toast.warn('Bạn chưa chọn size cho sản phẩm!');
                 return;
             }
+
             if (colorChecked.length === 0) {
                 toast.warn('Bạn chưa chọn màu sắc cho sản phẩm!');
                 return;
@@ -61,37 +65,32 @@ function ProductCreate() {
 
             if (imageUrl) {
                 setState({ ...state, loading: true });
-                async function createProduct() {
+                async function editProduct() {
                     let data = {
                         ...product,
                         size: sizeChecked,
                         color: colorChecked,
                         image: imageUrl
                     }
-                    let resCreate = await ProductService.createProduct(data);
-                    if (resCreate.data) {
-                        toast.success(`Thêm mới sản phẩm '${resCreate.data.name}' thành công`);
+                    let productEdit = await ProductService.editProduct(data.id, data);
+                    if (productEdit.data) {
+                        console.log(productEdit.data)
+                        toast.success(`Cập nhật sản phẩm '${productEdit.data.name}' thành công`);
                         setState({
                             ...state,
                             loading: false,
-                            product: {
-                                name: '',
-                                price: 0,
-                                category_id: '1',
-                                description: '',
-                                image: 'https://chiinstore.com/media/product/2418_555088_105_946c7d0c61b74f2f94a1c0950956fa80_master.png'
-                            }
-                        })
+                            product: productEdit.data
+                        });
+                        setSizeChecked(productEdit.data.size);
+                        setColorChecked(productEdit.data.color);
                     }
                 }
-                createProduct();
+                editProduct();
             }
 
         } catch (error) {
             toast.error(error.message);
         }
-        setSizeChecked([]);
-        setColorChecked([]);
     }
 
     const handleChange = (e) => {
@@ -133,25 +132,25 @@ function ProductCreate() {
     async function handleUploadImage() {
         try {
             if (!imageFile) {
-                toast.warn('Bạn chưa chọn hình ảnh nào!');
-                return;
+                return oldImageUrl;
             }
             setState({
                 ...state,
-                loading: true
-            })
+                loading: true,
+            });
+            await CloudinaryHelper.destroyImage(Helper.getFilename(oldImageUrl));
             let uploadResult = await CloudinaryHelper.uploadImage(imageFile);
             if (uploadResult && uploadResult.data) {
                 imageFile = null;
-                toast.success('Upload hình ảnh thành công!');
+                toast.success('Cập nhật hình ảnh thành công!');
                 setState({
                     ...state,
                     loading: false,
-                })
+                });
                 return uploadResult.data.url;
             }
             else {
-                toast.error('Upload hình ảnh thất bại!');
+                toast.error('Cập nhật hình ảnh thất bại!');
             }
         } catch (error) {
             toast.error(error.message);
@@ -163,13 +162,13 @@ function ProductCreate() {
     return (
         <div className='container'>
             <div className='row mt-2'>
-                <h2 className='text-center'>THÊM MỚI SẢN PHẨM</h2>
+                <h2 className='text-center'>CHỈNH SỬA SẢN PHẨM</h2>
                 <hr />
             </div>
             {
                 loading ? <Loader /> :
                     (<div className='row'>
-                        <form onSubmit={handleCreateProduct}>
+                        <form onSubmit={handleEditProduct}>
                             <div className="row">
                                 <div className="col-sm-7">
                                     <div className='col-sm-12 row'>
@@ -233,6 +232,7 @@ function ProductCreate() {
                                                                     type="checkbox"
                                                                     id={item}
                                                                     value={item}
+                                                                    checked={sizeChecked.includes(item) ? true : false}
                                                                     onChange={() => handleCheckSize(item)}
                                                                 />
                                                                 <label className="form-check-label" htmlFor={item}>{item}</label>
@@ -256,12 +256,13 @@ function ProductCreate() {
                                                                     type="checkbox"
                                                                     id={item}
                                                                     value={item}
+                                                                    checked={colorChecked.includes(item) ? true : false}
                                                                     onChange={() => handleCheckColor(item)}
                                                                 />
                                                                 <label className="form-check-label"
                                                                     style={
                                                                         item === 'white' ? { color: 'black' } :
-                                                                           { color: item }
+                                                                            { color: item }
                                                                     }
                                                                     htmlFor={item}>{item}</label>
                                                             </div>
@@ -289,23 +290,9 @@ function ProductCreate() {
                                         </div>
                                     </div>
                                     <hr />
-                                    {/* <div className='col-sm-12 row'>
-                                        <div className='form-group row'>
-                                            <label htmlFor='image' className="form-label">Hình ảnh:</label>
-                                            <div className='col-sm-12'>
-                                                <input className="form-control"
-                                                    type="file"
-                                                    id="image"
-                                                    name="image"
-                                                    onChange={handlePreviewImage}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr /> */}
                                     <div className='row d-flex'>
-                                        <button type="submit" className="btn btn-success me-2 col-md-3">
-                                            <i className="fa fa-plus" aria-hidden="true"></i> Thêm mới
+                                        <button type="submit" className="btn btn-primary me-2 col-md-3">
+                                            <i className="fas fa-edit"></i> Chỉnh sửa
                                         </button>
                                         <Link to={"/shoes-store"}
                                             className="btn btn-dark col-md-3">
@@ -318,9 +305,7 @@ function ProductCreate() {
 
                                     <img className='mt-2 col-sm-12'
                                         role="button"
-                                        src={
-                                            image || 'https://chiinstore.com/media/product/2418_555088_105_946c7d0c61b74f2f94a1c0950956fa80_master.png'
-                                        }
+                                        src={image}
                                         alt=""
                                         onClick={() => document.querySelector('#fileUploadImage').click()}
                                     />
@@ -333,9 +318,8 @@ function ProductCreate() {
                     </div>
                     )
             }
-
         </div>
     )
 }
 
-export default ProductCreate;
+export default ProductEdit;

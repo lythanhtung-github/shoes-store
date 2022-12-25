@@ -8,6 +8,9 @@ class ProductService {
     static createProduct(product) {
         return axios.post(PRODUCT_API, product);
     }
+    static editProduct(productId, product) {
+        return axios.put(`${PRODUCT_API}/${productId}`, product);
+    }
     static removeProduct(productId) {
         return axios.delete(`${PRODUCT_API}/${productId}`);
     }

@@ -7,6 +7,7 @@ import ProductService from './../../services/productService';
 import CategoryService from './../../services/categoryService';
 import Helper from '../utils/Helper';
 import './product-list.css';
+import CloudinaryHelper from './../utils/CloudinaryHelper';
 
 function ProductList() {
     const [state, setState] = useState({
@@ -95,6 +96,7 @@ function ProductList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 setState({ ...state, loading: true });
+                await CloudinaryHelper.destroyImage(Helper.getFilename(product.image));
                 let resRemove = await ProductService.removeProduct(product.id);
                 if (resRemove.data) {
                     let resProducts = await ProductService.getProducts();
@@ -107,10 +109,6 @@ function ProductList() {
                 toast.success(`Xóa thành công!`);
             }
         })
-    }
-
-    const handleView = (product) => {
-        
     }
 
     const { loading, products, categories } = state;
@@ -234,9 +232,11 @@ function ProductList() {
                                             >
                                                 <i className="fa-regular fa-eye"></i>
                                             </Link>
-                                            <button className='btn btn-sm btn-success edit'>
+                                            <Link className='btn btn-sm btn-success edit'
+                                                 to={`/shoes-store/products/edit/${product.id}`}
+                                            >
                                                 <i className="fa-solid fa-pen-to-square"></i>
-                                            </button>
+                                            </Link>
                                             <button
                                                 className='btn btn-sm btn-danger delete'
                                                 onClick={() => handleDelete(product)}
