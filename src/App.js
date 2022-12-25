@@ -3,8 +3,10 @@ import './App.css';
 import Header from './components/Header/Header';
 import ProductList from './components/ProductList/ProductList';
 import ProductCreate from './components/ProductCreate/ProductCreate';
+import ProductView from './components/ProductView/ProductView';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
       <Routes>
         <Route path='/shoes-store' element={<ProductList />} />
         <Route path='/shoes-store/products/create' element={<ProductCreate />} />
+        <Route path='/shoes-store/products/view/:productId' element={<ProductView />} />
       </Routes>
 
     </>

@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import ProductService from './../../services/productService';
 import CategoryService from './../../services/categoryService';
 import Helper from '../utils/Helper';
-import './product-list.css'
-
+import './product-list.css';
 
 function ProductList() {
     const [state, setState] = useState({
@@ -62,9 +61,7 @@ function ProductList() {
     }
 
     const handleCategoryChange = async (e) => {
-        // console.log(e.target)
         setCategoryId(e.target.value);
-        // console.log(categoryId);
         let categoryId = e.target.value;
         setState({ ...state, loading: true });
         let resProducts = await ProductService.getProducts();
@@ -110,6 +107,10 @@ function ProductList() {
                 toast.success(`Xóa thành công!`);
             }
         })
+    }
+
+    const handleView = (product) => {
+        
     }
 
     const { loading, products, categories } = state;
@@ -196,7 +197,7 @@ function ProductList() {
                                             </div>
                                             {/* <p className='text-white my-0'>{getCategoryName(product.category_id)}</p> */}
                                             <div className="category">
-                                                <h6 className='text-white   '>{getCategoryName(product.category_id)}
+                                                <h6 className='text-white'>{getCategoryName(product.category_id)}
                                                 </h6>
                                             </div>
                                             <div className="price d-flex align-items-center">
@@ -228,14 +229,16 @@ function ProductList() {
                                                     ))
                                                 }
                                             </div>
-                                            <button className='btn btn-sm btn-primary'>
+                                            <Link className='btn btn-sm btn-primary view'
+                                                to={`/shoes-store/products/view/${product.id}`}
+                                            >
                                                 <i className="fa-regular fa-eye"></i>
-                                            </button>
-                                            <button className='btn btn-sm btn-success'>
+                                            </Link>
+                                            <button className='btn btn-sm btn-success edit'>
                                                 <i className="fa-solid fa-pen-to-square"></i>
                                             </button>
                                             <button
-                                                className='btn btn-sm btn-danger'
+                                                className='btn btn-sm btn-danger delete'
                                                 onClick={() => handleDelete(product)}
                                             >
                                                 <i className="fa-solid fa-xmark"></i>
@@ -250,6 +253,8 @@ function ProductList() {
                 </div>
                 <hr />
             </section>
+
+
         </>
 
     )

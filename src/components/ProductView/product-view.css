@@ -1,0 +1,15 @@
+.sizeItems {
+    border-radius: 5px;
+    background-color: rgb(2, 101, 37);
+    color: rgb(247, 243, 243);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.colorItems {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}

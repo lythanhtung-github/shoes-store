@@ -328,7 +328,8 @@ function ProductCreate() {
                                 </div>
                             </div>
                         </form>
-                    </div>)
+                    </div>
+                    )
             }
 
         </div>

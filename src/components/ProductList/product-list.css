@@ -199,7 +199,17 @@ body {
     transition: .5s;
 } */
 
-.container .card .contentBx button {
+/* .container .card .contentBx button {
+    display: inline-block;
+    margin: 5px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: .5s;
+} */
+
+.container .card .contentBx .view,
+.container .card .contentBx .edit,
+.container .card .contentBx .delete {
     display: inline-block;
     margin: 5px;
     opacity: 0;
@@ -213,7 +223,15 @@ body {
     transition-delay: .7s;
 }  */
 
-.container .card:hover .contentBx button {
+/* .container .card:hover .contentBx button {
+    opacity: 1;
+    transform: translateY(0px);
+    transition-delay: .7s;
+} */
+
+.container .card .contentBx .view,
+.container .card .contentBx .edit,
+.container .card .contentBx .delete {
     opacity: 1;
     transform: translateY(0px);
     transition-delay: .7s;

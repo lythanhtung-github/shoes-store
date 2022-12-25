@@ -11,6 +11,9 @@ class ProductService {
     static removeProduct(productId) {
         return axios.delete(`${PRODUCT_API}/${productId}`);
     }
+    static getProductById(productId) {
+        return axios.get(`${PRODUCT_API}/${productId}`);
+    }
     static searchProducts(value) {
         return axios.get(PRODUCT_API + '?search=' + value);
     }
