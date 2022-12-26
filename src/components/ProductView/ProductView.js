@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { toast } from "react-toastify";
 import ProductService from './../../services/productService';
 import Loader from './../Loader/Loader';
 import CategoryService from './../../services/categoryService';
@@ -31,9 +32,9 @@ function ProductView() {
             getData();
         }
         catch (error) {
-
+            toast.error(error.message);
         }
-    }, [productId]);
+    }, []);
 
     const getCategoryName = (categoryId) => {
         let category = categories.find((cat) => cat.id === categoryId);
@@ -46,7 +47,7 @@ function ProductView() {
         <>
             <div className='container'>
                 <div className='row mt-2'>
-                    <h2 className='text-center'>XEM SẢN PHẨM</h2>
+                    <h2 className='text-center'>PRODUCT VIEW</h2>
                     <hr />
                 </div>
                 {
@@ -81,29 +82,27 @@ function ProductView() {
                                         </div>
                                     </div>
                                     <div className='col-sm-12 row my-3'>
-                                        <label className="form-label col-sm-2">Màu sắc:</label>
+                                        <label className="form-label col-sm-2">Color:</label>
                                         <div className='col-sm-10 row d-flex justify-content-start'>
                                             {
                                                 color.map((item, index) => (
-                                                    <div className='colorItems me-2' 
-                                                    style={
-                                                       { backgroundColor: item }    
-                                                    }
-                                                    key={index}></div>
+                                                    <div className='colorItems me-2'
+                                                        style={
+                                                            { backgroundColor: item }
+                                                        }
+                                                        key={index}></div>
                                                 ))
                                             }
                                         </div>
-
                                     </div>
                                     <hr />
                                     <div className='col-sm-12'>
-                                        <label htmlFor='category_id'>Loại: {getCategoryName(product.category_id)}</label>
-                                        <label></label>
+                                        <label htmlFor='category_id'>Category: {getCategoryName(product.category_id)}</label>
                                     </div>
                                     <hr />
                                     <div className='col-sm-12 row'>
                                         <div className='form-group row'>
-                                            <label htmlFor='description' className="form-label">Mô tả:</label>
+                                            <label htmlFor='description' className="form-label">Description:</label>
                                             <div className="col-sm-12">
                                                 <div>{description}</div>
                                             </div>
@@ -113,8 +112,8 @@ function ProductView() {
                                     <hr />
                                     <div className='row d-flex'>
                                         <Link to={"/shoes-store"}
-                                            className="btn btn-dark col-md-3">
-                                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Trở về
+                                            className="btn btn-dark col-md-2">
+                                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
                                         </Link>
                                     </div>
                                     <hr />
