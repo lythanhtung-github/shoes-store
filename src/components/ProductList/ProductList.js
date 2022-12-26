@@ -117,7 +117,7 @@ function ProductList() {
             <section className='product-info'>
                 <div className='container'>
                     <div className='row mt-4'>
-                        <h2 className='text-center'>DANH SÁCH SẢN PHẨM</h2>
+                        <h2 className='text-center'>PRODUCTS LIST</h2>
                         <hr />
                     </div>
                     <div className='row'>
@@ -125,7 +125,7 @@ function ProductList() {
                             <Link to={"/shoes-store/products/create"}
                                 className='btn btn-success'>
                                 <i className="fa-solid fa-plus"></i>
-                                <span className='ms-2'>Thêm mới</span>
+                                <span className='ms-2'>Add new product</span>
                             </Link>
                         </div>
                         <form onSubmit={handleSearch}
@@ -141,7 +141,7 @@ function ProductList() {
                                             value={categoryId}
                                             onInput={handleCategoryChange}
                                         >
-                                            <option value="0">Tất cả</option>
+                                            <option value="0">All</option>
                                             {
                                                 categories.map((item) => (
                                                     <option
@@ -160,7 +160,7 @@ function ProductList() {
 
                                 <input type="search"
                                     className="form-control form-control-dark rounded-0 rounded-start"
-                                    placeholder="Bạn muốn tìm gì..."
+                                    placeholder="Search..."
                                     aria-label="Search"
                                     value={keyword}
                                     onInput={(e) => setKeyword(e.target.value)}
@@ -199,7 +199,7 @@ function ProductList() {
                                                 </h6>
                                             </div>
                                             <div className="price d-flex align-items-center">
-                                                <h3>Giá :</h3>
+                                                <h3>Price :</h3>
                                                 <h3 className="text-yellow">{
                                                     Helper.formatCurrency(product.price)
                                                 }

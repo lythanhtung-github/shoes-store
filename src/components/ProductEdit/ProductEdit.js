@@ -51,12 +51,12 @@ function ProductEdit() {
             console.log(sizeChecked);
             if (sizeChecked.length === 0) {
                 
-                toast.warn('Bạn chưa chọn size cho sản phẩm!');
+                toast.warn('You have to select a size!');
                 return;
             }
 
             if (colorChecked.length === 0) {
-                toast.warn('Bạn chưa chọn màu sắc cho sản phẩm!');
+                toast.warn('You have to select a color!');
                 return;
             }
 
@@ -74,7 +74,7 @@ function ProductEdit() {
                     let productEdit = await ProductService.editProduct(data.id, data);
                     if (productEdit.data) {
                         console.log(productEdit.data)
-                        toast.success(`Cập nhật sản phẩm '${productEdit.data.name}' thành công`);
+                        toast.success(`'${productEdit.data.name}' has been created!`);
                         setState({
                             ...state,
                             loading: false,
@@ -141,7 +141,7 @@ function ProductEdit() {
             let uploadResult = await CloudinaryHelper.uploadImage(imageFile);
             if (uploadResult && uploadResult.data) {
                 imageFile = null;
-                toast.success('Cập nhật hình ảnh thành công!');
+                toast.success('Photo has been updated!');
                 setState({
                     ...state,
                     loading: false,
@@ -149,7 +149,7 @@ function ProductEdit() {
                 return uploadResult.data.url;
             }
             else {
-                toast.error('Cập nhật hình ảnh thất bại!');
+                toast.error('Photo updated fail!');
             }
         } catch (error) {
             toast.error(error.message);
@@ -161,7 +161,7 @@ function ProductEdit() {
     return (
         <div className='container'>
             <div className='row mt-2'>
-                <h2 className='text-center'>CHỈNH SỬA SẢN PHẨM</h2>
+                <h2 className='text-center'>EDIT PRODUCT</h2>
                 <hr />
             </div>
             {
@@ -172,7 +172,7 @@ function ProductEdit() {
                                 <div className="col-sm-7">
                                     <div className='col-sm-12 row'>
                                         <div className='form-group mt-2 col-sm-12'>
-                                            <label htmlFor='name' className="form-label">Tên sản phẩm:</label>
+                                            <label htmlFor='name' className="form-label">Name:</label>
                                             <div className="col-sm-12">
                                                 <input type="text" className="form-control" required
                                                     id="name"
@@ -186,7 +186,7 @@ function ProductEdit() {
                                     </div>
                                     <div className='col-sm-12 row'>
                                         <div className='form-group mt-2 col-sm-6'>
-                                            <label htmlFor='price' className="form-label">Giá bán:</label>
+                                            <label htmlFor='price' className="form-label">Price:</label>
                                             <div className="col-sm-12">
                                                 <input type="number" className="form-control" min='10000' required
                                                     id="price"
@@ -197,7 +197,7 @@ function ProductEdit() {
                                             </div>
                                         </div>
                                         <div className='form-group mt-2 col-sm-6'>
-                                            <label htmlFor='category_id' className="form-label">Loại:</label>
+                                            <label htmlFor='category_id' className="form-label">Category:</label>
                                             <div className="col-sm-12">
                                                 <select className='form-select'
                                                     id='category_id'
@@ -245,7 +245,7 @@ function ProductEdit() {
                                     <hr />
                                     <div className='col-sm-12 row'>
                                         <div className='form-group row'>
-                                            <label htmlFor='color' className="form-label">Màu sắc:</label>
+                                            <label htmlFor='color' className="form-label">Color:</label>
                                             <div className='col-sm-12 row'>
                                                 {
                                                     colors.map(item => (
@@ -274,7 +274,7 @@ function ProductEdit() {
                                     <hr />
                                     <div className='col-sm-12 row'>
                                         <div className='form-group row'>
-                                            <label htmlFor='description' className="form-label">Mô tả:</label>
+                                            <label htmlFor='description' className="form-label">Description:</label>
                                             <div className="col-sm-12">
                                                 <textarea
                                                     id='description'
@@ -290,12 +290,12 @@ function ProductEdit() {
                                     </div>
                                     <hr />
                                     <div className='row d-flex'>
-                                        <button type="submit" className="btn btn-primary me-2 col-md-3">
-                                            <i className="fas fa-edit"></i> Chỉnh sửa
+                                        <button type="submit" className="btn btn-primary me-2 col-md-2">
+                                            <i className="fas fa-edit"></i> Edit
                                         </button>
                                         <Link to={"/shoes-store"}
-                                            className="btn btn-dark col-md-3">
-                                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Trở về
+                                            className="btn btn-dark col-md-2">
+                                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
                                         </Link>
                                     </div>
                                     <hr />

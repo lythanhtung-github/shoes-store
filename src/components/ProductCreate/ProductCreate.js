@@ -47,11 +47,11 @@ function ProductCreate() {
         e.preventDefault();
         try {
             if (sizeChecked.length === 0) {
-                toast.warn('Bạn chưa chọn size cho sản phẩm!');
+                toast.warn('You have to select a size!');
                 return;
             }
             if (colorChecked.length === 0) {
-                toast.warn('Bạn chưa chọn màu sắc cho sản phẩm!');
+                toast.warn('You have to select a color!');
                 return;
             }
 
@@ -68,7 +68,7 @@ function ProductCreate() {
                     }
                     let resCreate = await ProductService.createProduct(data);
                     if (resCreate.data) {
-                        toast.success(`Thêm mới sản phẩm '${resCreate.data.name}' thành công`);
+                        toast.success(`'${resCreate.data.name}' has been created!`);
                         setState({
                             ...state,
                             loading: false,
@@ -131,7 +131,7 @@ function ProductCreate() {
     async function handleUploadImage() {
         try {
             if (!imageFile) {
-                toast.warn('Bạn chưa chọn hình ảnh nào!');
+                toast.warn('You are missing upload photo!');
                 return;
             }
             setState({
@@ -141,7 +141,7 @@ function ProductCreate() {
             let uploadResult = await CloudinaryHelper.uploadImage(imageFile);
             if (uploadResult && uploadResult.data) {
                 imageFile = null;
-                toast.success('Upload hình ảnh thành công!');
+                toast.success('Photo has been uploaded!');
                 setState({
                     ...state,
                     loading: false,
@@ -149,7 +149,7 @@ function ProductCreate() {
                 return uploadResult.data.url;
             }
             else {
-                toast.error('Upload hình ảnh thất bại!');
+                toast.error('Photo uploads fail!');
             }
         } catch (error) {
             toast.error(error.message);
@@ -161,7 +161,7 @@ function ProductCreate() {
     return (
         <div className='container'>
             <div className='row mt-2'>
-                <h2 className='text-center'>THÊM MỚI SẢN PHẨM</h2>
+                <h2 className='text-center'>ADD NEW PRODUCT</h2>
                 <hr />
             </div>
             {
@@ -172,7 +172,7 @@ function ProductCreate() {
                                 <div className="col-sm-7">
                                     <div className='col-sm-12 row'>
                                         <div className='form-group mt-2 col-sm-12'>
-                                            <label htmlFor='name' className="form-label">Tên sản phẩm:</label>
+                                            <label htmlFor='name' className="form-label">Name:</label>
                                             <div className="col-sm-12">
                                                 <input type="text" className="form-control" required
                                                     id="name"
@@ -186,7 +186,7 @@ function ProductCreate() {
                                     </div>
                                     <div className='col-sm-12 row'>
                                         <div className='form-group mt-2 col-sm-6'>
-                                            <label htmlFor='price' className="form-label">Giá bán:</label>
+                                            <label htmlFor='price' className="form-label">Price:</label>
                                             <div className="col-sm-12">
                                                 <input type="number" className="form-control" min='10000' required
                                                     id="price"
@@ -197,7 +197,7 @@ function ProductCreate() {
                                             </div>
                                         </div>
                                         <div className='form-group mt-2 col-sm-6'>
-                                            <label htmlFor='category_id' className="form-label">Loại:</label>
+                                            <label htmlFor='category_id' className="form-label">Category:</label>
                                             <div className="col-sm-12">
                                                 <select className='form-select'
                                                     id='category_id'
@@ -244,7 +244,7 @@ function ProductCreate() {
                                     <hr />
                                     <div className='col-sm-12 row'>
                                         <div className='form-group row'>
-                                            <label htmlFor='color' className="form-label">Màu sắc:</label>
+                                            <label htmlFor='color' className="form-label">Color:</label>
                                             <div className='col-sm-12 row'>
                                                 {
                                                     colors.map(item => (
@@ -272,7 +272,7 @@ function ProductCreate() {
                                     <hr />
                                     <div className='col-sm-12 row'>
                                         <div className='form-group row'>
-                                            <label htmlFor='description' className="form-label">Mô tả:</label>
+                                            <label htmlFor='description' className="form-label">Description:</label>
                                             <div className="col-sm-12">
                                                 <textarea
                                                     id='description'
@@ -287,27 +287,13 @@ function ProductCreate() {
                                         </div>
                                     </div>
                                     <hr />
-                                    {/* <div className='col-sm-12 row'>
-                                        <div className='form-group row'>
-                                            <label htmlFor='image' className="form-label">Hình ảnh:</label>
-                                            <div className='col-sm-12'>
-                                                <input className="form-control"
-                                                    type="file"
-                                                    id="image"
-                                                    name="image"
-                                                    onChange={handlePreviewImage}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr /> */}
                                     <div className='row d-flex'>
-                                        <button type="submit" className="btn btn-success me-2 col-md-3">
-                                            <i className="fa fa-plus" aria-hidden="true"></i> Thêm mới
+                                        <button type="submit" className="btn btn-success me-2 col-md-2">
+                                            <i className="fa fa-plus" aria-hidden="true"></i> Add
                                         </button>
                                         <Link to={"/shoes-store"}
-                                            className="btn btn-dark col-md-3">
-                                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Trở về
+                                            className="btn btn-dark col-md-2">
+                                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
                                         </Link>
                                     </div>
                                     <hr />
