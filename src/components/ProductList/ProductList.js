@@ -86,13 +86,13 @@ function ProductList() {
 
     const handleDelete = (product) => {
         Swal.fire({
-            title: 'Bạn có chắc chắn muốn xóa?',
+            title: 'Are you sure?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý, xóa liền tay'
+            confirmButtonText: 'Yes, delete it!'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 setState({ ...state, loading: true });
@@ -106,7 +106,7 @@ function ProductList() {
                         products: resProducts.data
                     })
                 }
-                toast.success(`Xóa thành công!`);
+                toast.success(`Deleted!`);
             }
         })
     }
