@@ -2,4 +2,4 @@ SHOES SHOP: Trang quản lý shop giày
 
 1. Kiến thức & Công nghệ áp dụng: React JS, HTML, CSS, JavaScript, JSX, GitHub, Bootstrap,..
 2. Link sản phẩm: https://lythanhtung-github.github.io/shoes-store
-<img src=".\public\productList.png">
+![Screenshot](./public/productList.png)
