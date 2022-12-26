@@ -133,7 +133,7 @@ function ProductList() {
                         >
                             <div className='col-md-6'>
                                 <div className='form-group d-flex align-items-center'>
-                                    <label htmlFor='categoryId' className="form-label me-2">Loại:</label>
+                                    <label htmlFor='categoryId' className="form-label me-2">Category:</label>
                                     <div className="col-sm-8">
                                         <select className='form-select'
                                             id='categoryId'
